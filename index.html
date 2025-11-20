@@ -425,60 +425,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#release-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Release Workflow
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Release Workflow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#branches" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Branches
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#automated-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automated steps
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recommended-local-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended local workflow
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#api-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
         API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Workflow
       
     </span>
   </a>
@@ -508,6 +469,33 @@
     
   
     API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Workflow
   
 
     
@@ -658,60 +646,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#release-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Release Workflow
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Release Workflow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#branches" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Branches
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#automated-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Automated steps
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#recommended-local-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Recommended local workflow
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#api-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
         API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release Workflow
       
     </span>
   </a>
@@ -826,71 +775,15 @@ to filter, aggregate, and analyze the data.</p>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">info</span> <span class="o">=</span> <span class="n">get_dataset_info</span><span class="p">(</span><span class="s2">&quot;your-dataset-id&quot;</span><span class="p">)</span>
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 </span></code></pre></div>
-<h2 id="release-workflow">Release Workflow</h2>
-<p>This repository uses GitHub Actions and branch-specific workflows for
-publishing releases.</p>
-<h3 id="branches">Branches</h3>
-<ul>
-<li><code>main</code> - primary development branch; merging to <code>main</code> triggers
-  automated version bumping.</li>
-<li><code>test-pypi</code> - deploying releases to TestPyPI.</li>
-<li><code>pypi</code> - deploying releases to the production PyPI index.</li>
-</ul>
-<h3 id="automated-steps">Automated steps</h3>
-<ol>
-<li><strong>Prepare release on <code>main</code></strong></li>
-</ol>
-<p>When a pull request is merged into <code>main</code>, a workflow runs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>prepare-release
-</span></code></pre></div>
-<p>This command:
-   - Runs the full check suite.
-   - Bumps the version.
-   - Pushes the updated commit and tag back to <code>main</code>.</p>
-<ol>
-<li><strong>Deploy to TestPyPI</strong></li>
-</ol>
-<p>Merging the updated <code>main</code> into <code>test-pypi</code> runs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>publish-test
-</span></code></pre></div>
-<p>This builds and publishes the new version to TestPyPI.</p>
-<ol>
-<li><strong>Deploy to PyPI</strong></li>
-</ol>
-<p>After validating the package from TestPyPI, merge the same <code>main</code>
-   commit into <code>pypi</code> to run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>publish
-</span></code></pre></div>
-<p>This publishes the package to the production PyPI index.</p>
-<h3 id="recommended-local-workflow">Recommended local workflow</h3>
-<p>Before opening release-related pull requests:</p>
-<ol>
-<li>Run the full checks without modifying files:</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>all
-</span></code></pre></div>
-<ol>
-<li>Optionally preview the version bump locally:</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>prepare-release
-</span></code></pre></div>
-<p>The GitHub Actions workflow runs the same command when the PR
-   is merged into <code>main</code>.</p>
-<ol>
-<li>After the automated version bump lands on <code>main</code>, open PRs from:</li>
-<li><code>main</code> to <code>test-pypi</code> to deploy to TestPyPI.</li>
-<li><code>main</code> to <code>pypi</code> to deploy to PyPI (once validated).</li>
-</ol>
 <h2 id="api-reference">API Reference</h2>
-<p>For a detailed API reference, see:</p>
-<ul>
-<li><code>datacollective.datasets</code></li>
-<li><code>datacollective.api_utils</code></li>
-<li><code>datacollective.dataset_loading_scripts.registry</code></li>
-<li><code>datacollective.dataset_loading_scripts.common_voice</code></li>
-</ul>
-<p>The <code>docs/api.md</code> file is configured to be processed by the API
-documentation plugin for MkDocs.</p>
+<p>For a detailed API reference, see the <a href="api/">API Reference</a> section of the documentation.</p>
+<h2 id="release-workflow">Release Workflow</h2>
+<blockquote>
+<p>[!NOTE]
+This section is intended for maintainers of the <code>datacollective</code> library.</p>
+</blockquote>
+<p>Check out the <a href="release/">Release Workflow</a> document for details on how to
+publish new versions of the library to PyPI using GitHub Actions.</p>
 
 
 
