@@ -408,6 +408,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#required-github-actions-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required GitHub Actions secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -490,6 +501,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#required-github-actions-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required GitHub Actions secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -522,56 +544,57 @@
 publishing releases.</p>
 <h3 id="branches">Branches</h3>
 <ul>
-<li><code>main</code> - primary development branch; merging to <code>main</code> triggers
-  automated version bumping.</li>
-<li><code>test-pypi</code> - deploying releases to TestPyPI.</li>
-<li><code>pypi</code> - deploying releases to the production PyPI index.</li>
+<li><code>main</code> - primary development branch. When a pull request is merged into <code>main</code> the repository workflow:</li>
+<li>Runs the full check suite.</li>
+<li>Bumps the version.</li>
+<li>Opens a <code>release/vX.Y.Z</code> pull request back onto <code>main</code>. Auto-merge is enabled on that PR, so once required checks pass the version commit lands on <code>main</code> automatically.</li>
+<li><code>test-pypi</code> - receives releases from <code>main</code> to deploy to TestPyPI.</li>
+<li><code>pypi</code> - receives releases from <code>main</code> to deploy to the production PyPI index.</li>
 </ul>
 <h3 id="automated-steps">Automated steps</h3>
 <ol>
 <li><strong>Prepare release on <code>main</code></strong></li>
 </ol>
-<p>When a pull request is merged into <code>main</code>, a workflow runs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>prepare-release
-</span></code></pre></div>
-<p>This command:
-   - Runs the full check suite.
-   - Bumps the version.
-   - Pushes the updated commit and tag back to <code>main</code>.</p>
+<p>When a pull request is merged into <code>main</code>, the release workflow runs the full checks, performs the version bump, and opens the <code>release/vX.Y.Z</code> pull request onto <code>main</code>. That PR is configured to auto-merge once required checks complete, so the version commit is applied to <code>main</code> without manual intervention.</p>
 <ol>
 <li><strong>Deploy to TestPyPI</strong></li>
 </ol>
-<p>Merging the updated <code>main</code> into <code>test-pypi</code> runs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>publish-test
+<p>Merge the updated <code>main</code> into <code>test-pypi</code> to deploy that version to TestPyPI. The following command runs automatically in the workflow:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>publish-test
 </span></code></pre></div>
-<p>This builds and publishes the new version to TestPyPI.</p>
 <ol>
 <li><strong>Deploy to PyPI</strong></li>
 </ol>
-<p>After validating the package from TestPyPI, merge the same <code>main</code>
-   commit into <code>pypi</code> to run:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>publish
+<p>After validating the package on TestPyPI, merge <code>main</code> into <code>pypi</code> to deploy to production. The following command runs automatically in the workflow:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>publish
 </span></code></pre></div>
-<p>This publishes the package to the production PyPI index.</p>
 <h3 id="recommended-local-workflow">Recommended local workflow</h3>
 <p>Before opening release-related pull requests:</p>
 <ol>
 <li>Run the full checks without modifying files:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>all
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>all
 </span></code></pre></div>
 <ol>
-<li>Optionally preview the version bump locally:</li>
+<li>Optionally rehearse the version bump locally:</li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>prepare-release
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scripts/dev.py<span class="w"> </span>prepare-release
 </span></code></pre></div>
-<p>The GitHub Actions workflow runs the same command when the PR
-   is merged into <code>main</code>.</p>
+<p>The repository workflow performs the same steps when <code>main</code> changes.</p>
 <ol>
-<li>After the automated version bump lands on <code>main</code>, open PRs from:</li>
-<li><code>main</code> to <code>test-pypi</code> to deploy to TestPyPI.</li>
-<li><code>main</code> to <code>pypi</code> to deploy to PyPI (once validated).</li>
+<li>
+<p>Follow the branch merge order so TestPyPI receives the version before production:</p>
+</li>
+<li>
+<p><code>main</code> -&gt; <code>test-pypi</code></p>
+</li>
+<li><code>main</code> -&gt; <code>pypi</code></li>
 </ol>
+<h3 id="required-github-actions-secrets">Required GitHub Actions secrets</h3>
+<ul>
+<li><code>TEST_PYPI_API_TOKEN</code> - token for publishing to TestPyPI (username <code>__token__</code>).</li>
+<li><code>PYPI_API_TOKEN</code> - token for publishing to PyPI (username <code>__token__</code>).</li>
+</ul>
 
 
 
